@@ -1,0 +1,10 @@
+
+
+npm i bootstrap --save
+npm i jquery --save
+npm i imask --save
+npm i currency-formatter --save
+npm i moment --save
+npm i primeng --save
+npm install chart.js --save
+npm i angular-in-memory-web-api
