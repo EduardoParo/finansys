@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { EntriesRouterModule } from './entries-routing.module';
+import { EntriesRoutingModule } from './entries-routing.module';
+import { EntriesListComponent } from './entries-list/entries-list.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
-    declarations:[],
-    imports:[
-        CommonModule,
-        HttpClientModule,
-        EntriesRouterModule
-    ],
-    exports:[]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    EntriesRoutingModule,
+  ],
+  declarations: [EntriesListComponent],
 })
-export class EntriesModule{}
+export class EntriesModule {}

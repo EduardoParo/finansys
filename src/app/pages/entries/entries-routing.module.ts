@@ -7,4 +7,4 @@ const routes: Route[] = [{ path: '', component: EntriesListComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class EntriesRouterModule {}
+export class EntriesRoutingModule {}
