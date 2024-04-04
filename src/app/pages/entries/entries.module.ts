@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { EntriesRoutingModule } from './entries-routing.module';
-import { EntriesListComponent } from './entries-list/entries-list.component';
+import { EntrieListComponent } from './entrie-list/entrie-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { EntrieFormComponent } from './entrie-form/entrie-form.component';
+import { CalendarModule } from 'primeng/calendar';
+import { IMaskModule } from 'angular-imask';
 
 @NgModule({
   imports: [
@@ -11,7 +14,9 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     EntriesRoutingModule,
+    CalendarModule,
+    IMaskModule,
   ],
-  declarations: [EntriesListComponent],
+  declarations: [EntrieListComponent, EntrieFormComponent],
 })
 export class EntriesModule {}

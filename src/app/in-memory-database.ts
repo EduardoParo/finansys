@@ -1,7 +1,7 @@
 import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
 import { Observable, debounceTime, of } from 'rxjs';
 import { Category } from './pages/categories/shared/category.model';
-import { Entry } from './pages/entries/shared/entry.model';
+import { Entrie } from './pages/entries/shared/entrie.model';
 
 export class DataBase implements InMemoryDbService {
   createDb(
@@ -15,7 +15,7 @@ export class DataBase implements InMemoryDbService {
       { id: 5, name: 'Freelas', description: 'Trabalho com Freelancer' },
     ];
 
-    const entries: Entry[] = [
+    const entries: Entrie[] = [
       {
         id: 1,
         name: 'Gás de cozinha',
@@ -26,7 +26,7 @@ export class DataBase implements InMemoryDbService {
         amount: '70,80',
         type: 'expense',
         description: 'Qualquer descrição',
-      } as Entry,
+      } as Entrie,
       {
         id: 2,
         name: 'Suplemento',
@@ -37,7 +37,7 @@ export class DataBase implements InMemoryDbService {
         amount: '500,00',
         type: 'expense',
         description: 'Qualquer descrição',
-      } as Entry,
+      } as Entrie,
       {
         id: 3,
         name: 'Salario',
@@ -48,7 +48,7 @@ export class DataBase implements InMemoryDbService {
         amount: '20000,00',
         type: 'renevue',
         description: 'Qualquer descrição',
-      } as Entry,
+      } as Entrie,
       {
         id: 4,
         name: 'Uber',
@@ -59,7 +59,7 @@ export class DataBase implements InMemoryDbService {
         amount: '70,80',
         type: 'expense',
         description: 'Qualquer descrição',
-      } as Entry,
+      } as Entrie,
       {
         id: 5,
         name: 'Academia',
@@ -70,7 +70,7 @@ export class DataBase implements InMemoryDbService {
         amount: '150,80',
         type: 'expense',
         description: 'Qualquer descrição',
-      } as Entry,
+      } as Entrie,
     ];
 
     return of({ categories, entries }).pipe(debounceTime(1200));

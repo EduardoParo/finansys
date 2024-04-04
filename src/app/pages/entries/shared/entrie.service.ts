@@ -1,40 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { Entry } from './entry.model';
+import { Entrie } from './entrie.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EntryService {
+export class EntrieService {
   private apiPath = 'api/entries';
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Entry[]> {
+  getAll(): Observable<Entrie[]> {
     return this.http
       .get(this.apiPath)
       .pipe(catchError(this.handleError), map(this.jsonToentries));
   }
 
-  getById(id: number): Observable<Entry> {
+  getById(id: number): Observable<Entrie> {
     return this.http.get(`${this.apiPath}/${id}`).pipe(
       catchError(this.handleError),
-      map((res) => res as Entry)
+      map((res) => res as Entrie)
     );
   }
 
-  create(Entry: Entry): Observable<Entry> {
-    return this.http.post(this.apiPath, Entry).pipe(
+  create(Entrie: Entrie): Observable<Entrie> {
+    return this.http.post(this.apiPath, Entrie).pipe(
       catchError(this.handleError),
-      map((res) => res as Entry)
+      map((res) => res as Entrie)
     );
   }
 
-  update(Entry: Entry): Observable<Entry> {
-    return this.http.put(`${this.apiPath}/${Entry.id}`, Entry).pipe(
+  update(Entrie: Entrie): Observable<Entrie> {
+    return this.http.put(`${this.apiPath}/${Entrie.id}`, Entrie).pipe(
       catchError(this.handleError),
-      map(() => Entry)
+      map(() => Entrie)
     );
   }
 
@@ -42,10 +42,10 @@ export class EntryService {
     return this.http.delete(`${this.apiPath}/${id}`);
   }
 
-  jsonToentries(resJson: any[]): Entry[] {
-    const entries: Entry[] = [];
+  jsonToentries(resJson: any[]): Entrie[] {
+    const entries: Entrie[] = [];
     resJson.forEach((e) => {
-      const entry = Object.assign(new Entry(), e);
+      const entry = Object.assign(new Entrie(), e);
       entries.push(entry);
     });
     return entries;

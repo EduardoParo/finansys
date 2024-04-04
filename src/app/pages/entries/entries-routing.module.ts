@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
-import { EntriesListComponent } from './entries-list/entries-list.component';
+import { RouterModule, Routes } from '@angular/router';
+import { EntrieListComponent } from './entrie-list/entrie-list.component';
+import { EntrieFormComponent } from './entrie-form/entrie-form.component';
 
-const routes: Route[] = [{ path: '', component: EntriesListComponent }];
+const routes: Routes = [
+  { path: '', component: EntrieListComponent },
+  { path: 'new', component: EntrieFormComponent },
+  { path: ':id/edit', component: EntrieFormComponent },
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

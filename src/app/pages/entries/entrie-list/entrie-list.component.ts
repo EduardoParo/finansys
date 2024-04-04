@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { EntryService } from '../shared/entry.service';
+import { EntrieService } from '../shared/entrie.service';
 import { take } from 'rxjs';
-import { Entry } from '../shared/entry.model';
+import { Entrie } from '../shared/entrie.model';
 
 @Component({
-  selector: 'app-entries-list',
-  templateUrl: './entries-list.component.html',
+  selector: 'app-entrie-list',
+  templateUrl: './entrie-list.component.html',
 })
-export class EntriesListComponent {
-  entries: Entry[] = [];
+export class EntrieListComponent {
+  entries: Entrie[] = [];
 
-  constructor(private entryService: EntryService) {}
+  constructor(private entryService: EntrieService) {}
   ngOnInit(): void {
     this.entryService
       .getAll()
@@ -20,7 +20,7 @@ export class EntriesListComponent {
       });
   }
 
-  deleteEntry(category: Entry): void {
+  deleteEntry(category: Entrie): void {
     const canDelete = confirm(
       `Deseja realmente excluir o item : ${category.name}`
     );
