@@ -17,7 +17,7 @@ export class CategoryService {
       .pipe(catchError(this.handleError), map(this.jsonToCategories));
   }
 
-  getById(id: number): Observable<Category> {
+  getById(id=0): Observable<Category> {
     return this.http.get(`${this.apiPath}/${id}`).pipe(
       catchError(this.handleError),
       map((res) => res as Category)

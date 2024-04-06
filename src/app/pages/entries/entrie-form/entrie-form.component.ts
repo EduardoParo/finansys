@@ -9,6 +9,9 @@ import { EntrieService } from '../shared/entrie.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { PrimeNGConfig } from 'primeng/api';
+import { CategoryService } from '../../categories/shared/category.serivce';
+import { Category } from '../../categories/shared/category.model';
 
 @Component({
   selector: 'app-entrie-form',
@@ -21,23 +24,92 @@ export class EntrieFormComponent implements OnInit, AfterContentChecked {
   serverErrorMessages: string[] = [];
   entrie: Entrie = new Entrie();
   isDisableSubmit = false;
+  imaskConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: '',
+    padFractionalZero: true,
+  };
+
+  categories!: Category[];
+
+  get typeOptions(): { text: string; value: string }[] {
+    return Object.entries(Entrie.types).map(([value, text]) => ({
+      text: text,
+      value: value,
+    }));
+  }
 
   constructor(
     private entrieService: EntrieService,
     private route: ActivatedRoute,
     private router: Router,
     private fb: UntypedFormBuilder,
-    public toastrService: ToastrService
+    public categoryService: CategoryService,
+    public toastrService: ToastrService,
+    public primeNGConfig: PrimeNGConfig
   ) {}
 
   ngOnInit(): void {
     this.onInitLoadRouterAction();
     this.onInitLoadEntrie();
+    this.onInitLoadCategories();
     this.onInitBuildForm();
+    this.onInitPrimeNgConfig();
   }
 
   ngAfterContentChecked(): void {
     this.onInitPageTitle();
+  }
+
+  onInitPrimeNgConfig(): void {
+    this.primeNGConfig.setTranslation({
+      apply: 'Aplicar',
+      clear: 'Limpar',
+      accept: 'Sim',
+      reject: 'Não',
+      firstDayOfWeek: 0,
+      dayNames: [
+        'Domingo',
+        'Segunda',
+        'Terça',
+        'Quarta',
+        'Quinta',
+        'Sexta',
+        'Sábado',
+      ],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+      monthNames: [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ],
+      monthNamesShort: [
+        'Jan',
+        'Fev',
+        'Mar',
+        'Abr',
+        'Mai',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez',
+      ],
+      today: 'Hoje',
+    });
   }
 
   onInitLoadRouterAction(): void {
@@ -49,11 +121,11 @@ export class EntrieFormComponent implements OnInit, AfterContentChecked {
       id: [this.entrie.id],
       name: [this.entrie.name, [Validators.required, Validators.minLength(2)]],
       description: [this.entrie.description],
-      type: [this.entrie.type, [Validators.required]],
+      type: [this.entrie?.type ?? 'expense', [Validators.required]],
       amount: [this.entrie.amount, [Validators.required]],
       date: [this.entrie.date, [Validators.required]],
-      paid: [this.entrie.paid, [Validators.required]],
-      categoryId: [this.entrie.categoryId, [Validators.required]],
+      paid: [this.entrie?.paid ?? true, [Validators.required]],
+      categoryid: [this.entrie.categoryid, [Validators.required]],
     });
   }
 
@@ -73,6 +145,10 @@ export class EntrieFormComponent implements OnInit, AfterContentChecked {
           (error) => alert('Erro no formulario')
         );
     }
+  }
+
+  onInitLoadCategories(): void {
+    this.categoryService.getAll().subscribe((res) => (this.categories = res));
   }
 
   onInitPageTitle(): void {

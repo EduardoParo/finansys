@@ -1,7 +1,7 @@
 <nav class="mb-5">
     <ol class="breadcrumb bg-light p-2 mt-2">
         <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-        <li class="breadcrumb-item"><a routerLink="/categories">Lançamentos</a></li>
+        <li class="breadcrumb-item"><a routerLink="/entries">Lançamentos</a></li>
         <li class="breadcrumb-item active">{{pageTitle}}</li>
     </ol>
 </nav>
@@ -25,10 +25,28 @@
         </div>
 
         <div class="card-body">
-            <div class="form-row">
-                <div class="form-group col-md-4 mb-2">
-                    <label for="name">* Nome</label>
-                    <input formControlName="name" type="text" class="form-control" id="name">
+            <div class="row form-row">
+                <!--Tipo-->
+                <div class="form-group col-sm-2 mb-2">
+                    <label for="type">* Tipo</label>
+                    <select formControlName="type" class="form-control">
+                        @for (item of typeOptions; track $index) {
+                        <option [value]="item.value">{{item.text}}</option>
+                        }
+                    </select>
+
+                    @if (form.get('type')?.invalid && form.get('type')?.touched) {
+                    <div class="text-danger">
+                        @if ( form.get('type')?.errors?.['required']) {
+                        <p>*Dado obrigatório.</p>
+                        }
+                    </div>
+                    }
+                </div>
+                <!--Nome-->
+                <div class="form-group col-sm-5 mb-2">
+                    <label for="name">* Lançamento</label>
+                    <input formControlName="name" type="text" class="form-control">
 
                     @if (form.get('name')?.invalid && form.get('name')?.touched) {
                     <div class="text-danger">
@@ -42,14 +60,92 @@
                     }
                 </div>
 
-                <div class="form-group col-md-8">
+                <!--amount-->
+                <div class="form-group col-sm-3 mb-2">
+                    <label for="amount">* Valor</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                R$
+                            </div>
+                        </div>
+                        <input [imask]="imaskConfig" type="text" class="text-right form-control"
+                            formControlName="amount">
+                    </div>
+
+                    @if (form.get('amount')?.invalid && form.get('amount')?.touched) {
+                    <div class="text-danger">
+                        @if ( form.get('amount')?.errors?.['required']) {
+                        <p>*Dado obrigatório.</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <!--date-->
+                <div class="form-group col-sm-2 mb-2">
+                    <label for="date">Data</label>
+                    <p-calendar inputStyleClass="form-control" formControlName="date" dataType="string"
+                        dateFormat="dd/mm/yy" [showButtonBar]="true" [showIcon]="true"></p-calendar>
+
+                    @if (form.get('date')?.invalid && form.get('date')?.touched) {
+                    <div class="text-danger">
+                        @if ( form.get('date')?.errors?.['required']) {
+                        <p>*Dado obrigatório.</p>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="row form-row">
+                <!--Tipo-->
+                <div class="form-group col-sm-2 mb-2">
+                    <label for="paid">* Pago</label>
+                    <div class="btn-group">
+                        <label (click)="form.get('paid')?.setValue(true)"
+                            [class.active]="form.get('paid')?.value ===true" for="true" class="btn btn-outline-info">
+                            Pago
+                        </label>
+                        <label (click)="form.get('paid')?.setValue(false)"
+                            [class.active]="form.get('paid')?.value ===false" for="false" class="btn btn-outline-info">
+                            Pendente
+                        </label>
+                    </div>
+                    @if (form.get('paid')?.invalid && form.get('paid')?.touched) {
+                    <div class="text-danger">
+                        @if ( form.get('paid')?.errors?.['required']) {
+                        <p>*Dado obrigatório.</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <!--Categoria-->
+                <div class="form-group col-sm-3 mb-2">
+                    <label for="categoryid">* Categoria</label>
+                    <select formControlName="categoryid" class="form-control">
+                        @for (item of categories; track $index) {
+                        <option [value]="item?.id">{{item?.name}}</option>
+                        }
+                    </select>
+
+                    @if (form.get('categoryid')?.invalid && form.get('categoryid')?.touched) {
+                    <div class="text-danger">
+                        @if ( form.get('categoryid')?.errors?.['required']) {
+                        <p>*Dado obrigatório.</p>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group col-sm-7">
                     <label for="description">Descrição</label>
-                    <input formControlName="description" type="text" class="form-control" id="description">
+                    <input formControlName="description" type="text" class="form-control">
                 </div>
             </div>
         </div>
-
     </div>
+
 
     @if(serverErrorMessages.length > 0){
     <div class="alert alert-danger mt-4">

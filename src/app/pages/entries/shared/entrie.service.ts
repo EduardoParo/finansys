@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, switchMap, throwError } from 'rxjs';
 import { Entrie } from './entrie.model';
+import { CategoryService } from '../../categories/shared/category.serivce';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,10 @@ import { Entrie } from './entrie.model';
 export class EntrieService {
   private apiPath = 'api/entries';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private categoryService: CategoryService
+  ) {}
 
   getAll(): Observable<Entrie[]> {
     return this.http
@@ -24,17 +28,27 @@ export class EntrieService {
     );
   }
 
-  create(Entrie: Entrie): Observable<Entrie> {
-    return this.http.post(this.apiPath, Entrie).pipe(
-      catchError(this.handleError),
-      map((res) => res as Entrie)
+  create(entrie: Entrie): Observable<Entrie> {
+    return this.categoryService.getById(entrie.categoryid).pipe(
+      switchMap((cat) => {
+        entrie.category = cat;
+        return this.http.post(this.apiPath, entrie).pipe(
+          catchError(this.handleError),
+          map((res) => res as Entrie)
+        );
+      })
     );
   }
 
-  update(Entrie: Entrie): Observable<Entrie> {
-    return this.http.put(`${this.apiPath}/${Entrie.id}`, Entrie).pipe(
-      catchError(this.handleError),
-      map(() => Entrie)
+  update(entrie: Entrie): Observable<Entrie> {
+    return this.categoryService.getById(entrie.categoryid).pipe(
+      switchMap((cat) => {
+        entrie.category = cat;
+        return this.http.put(`${this.apiPath}/${entrie.id}`, entrie).pipe(
+          catchError(this.handleError),
+          map(() => entrie)
+        );
+      })
     );
   }
 

@@ -9,13 +9,13 @@ export class Entrie {
     public amount?: string,
     public date?: string,
     public paid?: boolean,
-    public categoryId?: number,
+    public categoryid?: number,
     public category?: Category
   ) {}
 
   static types = {
     expense: 'Despesa',
-    renevue: 'Receita',
+    revenue: 'Receita',
   };
 
   get paidText(): string {
