@@ -1,4 +1,4 @@
-import { BaseResourceModel } from '../../../shared/model/base-resource.model';
+import { BaseResourceModel } from '../../../shared/models/base-resource.model';
 import { Category } from '../../categories/shared/category.model';
 
 export class Entrie extends BaseResourceModel {
@@ -15,10 +15,14 @@ export class Entrie extends BaseResourceModel {
 
   static readonly types = {
     expense: 'Despesa',
-    revenue: 'Receita',
+    renevue: 'Receita',
   };
 
   get paidText(): string {
     return this.paid ? 'Pago' : 'Pedente';
+  }
+
+  static resJsonToResource(res: any): Entrie {
+    return Object.assign(new Entrie(), res);
   }
 }
